@@ -10,7 +10,7 @@ class Envio:
         r += " - Dirección de destino: " + self.direccion
         r += " - Tipo de envío: " + str(self.tipo)
         r += " - Forma de pago: " + str(self.forma_pago)
-        r += " - Pais: " + procesar_envio(self.codigo_postal, self.direccion, self.tipo, self.forma_pago)[0]
+        r += " - Pais: " + procesar_envio(self.codigo_postal.strip(), self.direccion, self.tipo, self.forma_pago)[0]
         return r
 
 
