@@ -1,19 +1,20 @@
 class Envio:
-    def __init__(self, cp, dir, tipo, fp ):
+    def __init__(self, cp, dire, tipo, fp):
         self.codigo_postal = cp
-        self.direccion = dir
+        self.direccion = dire
         self.tipo = tipo
         self.forma_pago = fp
 
     def __str__(self):
-        r = "Código Postal: " + self.codigo_postal
-        r += " - Dirección de destino: " + self.direccion
-        r += " - Tipo de envío: " + str(self.tipo)
-        r += " - Forma de pago: " + str(self.forma_pago)
-        r += " - Pais: " + procesar_envio(self.codigo_postal.strip(), self.direccion, self.tipo, self.forma_pago)[0]
-        return r
-
-
+        pais = procesar_envio(self.codigo_postal.strip(), self.direccion, self.tipo, self.forma_pago)[0]
+        
+        return (
+            f"Código Postal: {self.codigo_postal:<10} "
+            f"Dirección de destino: {self.direccion:<20} "
+            f"Tipo de envío: {self.tipo:<2} "
+            f"Forma de pago: {self.forma_pago:<2} "
+            f"País: {pais:<10}"
+        )
 
 def procesar_envio(cp, direc, tipo, pago):
     # INICIALIZACIÓN DE VARIABLES
@@ -35,7 +36,8 @@ def procesar_envio(cp, direc, tipo, pago):
     cp = cp.upper()
     long = len(cp)
 
-    if long == 8 and (cp[0] in letras and cp[0] not in "IO") and cp[1] in numeros and cp[2] in numeros and cp[3] in numeros and cp[4] in numeros and cp[5] in letras and cp[6] in letras and cp[7] in letras:
+    if (long == 8 and (cp[0] in letras and cp[0] not in "IO") and cp[1] in numeros and cp[2] in numeros and cp[3] in
+            numeros and cp[4] in numeros and cp[5] in letras and cp[6] in letras and cp[7] in letras):
         destino = "Argentina"
         multiplicador = 1
         if cp[0] == "A":
@@ -89,7 +91,8 @@ def procesar_envio(cp, direc, tipo, pago):
     elif long == 4 and cp[0] in numeros and cp[1] in numeros and cp[2] in numeros and cp[3] in numeros:
         destino = "Bolivia"
         multiplicador = 1.20
-    elif long == 9 and cp[0] in numeros and cp[1] in numeros and cp[2] in numeros and cp[3] in numeros and cp[4] in numeros and cp[5] == "-" and cp[6] in numeros and cp[7] in numeros and cp[8] in numeros:
+    elif (long == 9 and cp[0] in numeros and cp[1] in numeros and cp[2] in numeros and cp[3] in numeros and cp[4] in
+          numeros and cp[5] == "-" and cp[6] in numeros and cp[7] in numeros and cp[8] in numeros):
         destino = "Brasil"
         if cp[0] in "0123":
             multiplicador = 1.25
@@ -97,13 +100,16 @@ def procesar_envio(cp, direc, tipo, pago):
             multiplicador = 1.3
         else:
             multiplicador = 1.2
-    elif long == 7 and cp[0] in numeros and cp[1] in numeros and cp[2] in numeros and cp[3] in numeros and cp[4] in numeros and cp[5] in numeros and cp[6] in numeros:
+    elif (long == 7 and cp[0] in numeros and cp[1] in numeros and cp[2] in numeros and cp[3] in numeros and cp[4] in
+          numeros and cp[5] in numeros and cp[6] in numeros):
         destino = "Chile"
         multiplicador = 1.25
-    elif long == 6 and cp[0] in numeros and cp[1] in numeros and cp[2] in numeros and cp[3] in numeros and cp[4] in numeros and cp[5] in numeros:
+    elif (long == 6 and cp[0] in numeros and cp[1] in numeros and cp[2] in numeros and cp[3] in numeros and cp[4] in
+          numeros and cp[5] in numeros):
         destino = "Paraguay"
         multiplicador = 1.20
-    elif long == 5 and cp[0] in numeros and cp[1] in numeros and cp[2] in numeros and cp[3] in numeros and cp[4] in numeros:
+    elif (long == 5 and cp[0] in numeros and cp[1] in numeros and cp[2] in numeros and cp[3] in
+          numeros and cp[4] in numeros):
         destino = "Uruguay"
         multiplicador = 1.25
         if cp[0] == "1":
@@ -117,4 +123,4 @@ def procesar_envio(cp, direc, tipo, pago):
     final = int(inicial * descuento[pago])
 
     # SALIDA
-    return (destino,provincia,inicial,final)
+    return destino, provincia, inicial, final
